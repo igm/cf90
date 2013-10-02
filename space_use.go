@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/igm/cf"
 	"log"
@@ -53,6 +54,8 @@ func chooseSpace(spaces []cf.Space) (space cf.Space, err error) {
 	var sp int
 	if _, err = fmt.Scanf("%d ", &sp); err == nil && sp > 0 && sp <= len(spaces) {
 		space = spaces[sp-1]
+	} else {
+		err = errors.New("No space selected")
 	}
 	return
 }
