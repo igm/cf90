@@ -32,7 +32,10 @@ func app_stop() {
 	}
 
 	if appId == "" {
-		name, appId = chooseApplication(summary)
+		name, appId, err = chooseApplication(summary)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = target.AppStop(appId)

@@ -42,7 +42,10 @@ func app_addroute() {
 	}
 
 	if appId == "" {
-		name, appId = chooseApplication(summary)
+		name, appId, err = chooseApplication(summary)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	host := params["host"]

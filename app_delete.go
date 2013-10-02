@@ -33,7 +33,10 @@ func app_delete() {
 	}
 
 	if appId == "" {
-		name, appId = chooseApplication(summary)
+		name, appId, err = chooseApplication(summary)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = target.AppDelete(appId)

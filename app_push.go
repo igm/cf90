@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/igm/cf"
 	"log"
@@ -39,7 +40,10 @@ func app_push() {
 	}
 
 	if appId == "" {
-		name, appId = chooseApplication(summary)
+		name, appId, err = chooseApplication(summary)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	var archetypes []*cf.Archetype
@@ -63,7 +67,7 @@ func app_push() {
 	}
 }
 
-func chooseApplication(summary *cf.Summary) (string, string) {
+func chooseApplication(summary *cf.Summary) (string, string, error) {
 	for i, app := range summary.Apps {
 		fmt.Printf(" (%d) %s\n", i+1, app.Name)
 	}
@@ -71,7 +75,7 @@ func chooseApplication(summary *cf.Summary) (string, string) {
 	fmt.Print("Select application: ")
 	_, err := fmt.Scanf("%d\n", &appIndex)
 	if err != nil || appIndex > len(summary.Apps) || appIndex < 1 {
-		return "", ""
+		return "", "", errors.New("No application selected")
 	}
-	return summary.Apps[appIndex-1].Name, summary.Apps[appIndex-1].Guid
+	return summary.Apps[appIndex-1].Name, summary.Apps[appIndex-1].Guid, nil
 }
