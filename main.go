@@ -54,9 +54,10 @@ func init() {
 	configFile := fmt.Sprintf("%s/.cf/cf90.conf", user.HomeDir)
 	c, _ = NewConfig(configFile)
 
-	flag.BoolVar(&cf.Trace, "t", false, "enable HTTP tracing")
-	flag.Parse()
+	flag.BoolVar(&cf.Trace, "t", false, "Enable HTTP tracing")
+	insecure := flag.Bool("k", false, "This option explicitly allows cf90 to perform \"insecure\" SSL connections and transfers.")
 
+	flag.Parse()
 	log.SetFlags(0)
 
 	for _, arg := range flag.Args() {
@@ -67,12 +68,14 @@ func init() {
 	}
 
 	// use more toleran HTTP Client
-	cf.HttpClient = &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-			Proxy:           http.ProxyFromEnvironment,
-		},
-		CheckRedirect: http.DefaultClient.CheckRedirect,
+	if *insecure {
+		cf.HttpClient = &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+				Proxy:           http.ProxyFromEnvironment,
+			},
+			CheckRedirect: http.DefaultClient.CheckRedirect,
+		}
 	}
 }
 
