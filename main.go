@@ -68,7 +68,7 @@ func init() {
 
 	// use more toleran HTTP Client
 	cf.HttpClient = &http.Client{
-		Transport: http.Transport{
+		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 			Proxy:           http.ProxyFromEnvironment,
 		},
