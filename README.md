@@ -6,8 +6,9 @@ The tool is still under development.
 ## Installation
 `$ go get github.com/igm/cf90`
 
-## Supported commands
+This tool uses CF for GO library (http://github.com/igm/cf)
 
+## Supported commands
 
 ```
 Commands:
