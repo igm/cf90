@@ -56,8 +56,10 @@ func app_addroute() {
 	}
 
 	if routeGUID == "" {
-		// ADD console UI to pick host/domain
-		log.Fatal("route not found")
+		routeGUID, err = chooseRoute(target)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = target.AppAddRoute(appId, routeGUID)
