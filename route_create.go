@@ -11,7 +11,7 @@ func init() {
 		name:  "route.create",
 		help:  "Create a route in current space",
 		params: []Param{
-			Param{name: "name", desc: "route name"},
+			Param{name: "host", desc: "host name"},
 			Param{name: "domain", desc: "domain name"},
 		},
 		handle: route_create,
@@ -33,9 +33,9 @@ func route_create() {
 		log.Fatal(err)
 	}
 
-	name, exists := params["name"]
+	name, exists := params["host"]
 	if !exists {
-		fmt.Print("Route name: ")
+		fmt.Print("Host name: ")
 		_, err = fmt.Scanf("%s\n", &name)
 		if err != nil {
 			log.Fatal(err)

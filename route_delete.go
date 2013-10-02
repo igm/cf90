@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/igm/cf"
 	"log"
@@ -67,6 +68,8 @@ func chooseRoute(target *cf.Target) (routeGUID string, err error) {
 	var index int
 	if _, err = fmt.Scanf("%d\n", &index); err == nil && index > 0 && index <= len(routes) {
 		routeGUID = routes[index-1].Guid
+	} else {
+		err = errors.New("No route selected.")
 	}
 	return
 }
