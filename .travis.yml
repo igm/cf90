@@ -3,3 +3,4 @@ go: tip
 install:
   - go get github.com/igm/cf
   - go get code.google.com/p/gopass
+script: go build -v ./...
