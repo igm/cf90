@@ -36,9 +36,8 @@ func org_use() {
 	}
 	fmt.Print("Select organization: ")
 	var org int
-	if _, err = fmt.Scanf("%d ", &org); err == nil {
+	if _, err = fmt.Scanf("%d ", &org); err == nil && org > 0 && org <= len(orgs) {
 		c.data.ActiveOrg = orgs[org-1].Guid
-	} else {
-		log.Fatal(err)
 	}
+	return
 }

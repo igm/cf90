@@ -33,5 +33,4 @@ func org_list() {
 		}
 		fmt.Printf("  %s %s\n", org.Name, active)
 	}
-
 }

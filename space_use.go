@@ -51,9 +51,8 @@ func chooseSpace(spaces []cf.Space) (space cf.Space, err error) {
 
 	fmt.Print("Select space: ")
 	var sp int
-	if _, err = fmt.Scanf("%d ", &sp); err == nil {
+	if _, err = fmt.Scanf("%d ", &sp); err == nil && sp > 0 && sp <= len(spaces) {
 		space = spaces[sp-1]
-		// c.data.ActiveSpace = spaces[sp-1].Guid
 	}
 	return
 }

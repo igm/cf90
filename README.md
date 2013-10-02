@@ -1,10 +1,10 @@
 # CloudFoundry CLI - cf90
 
-`cf90` is a command line tool to interact with cloud foundry instance. It is entirelly written in GO language.
+`cf90` is a command line tool to interact with cloud foundry instance. It is entirely written in GO language.
 The tool is still under development.
 
 ## Installation
-`$ go get github.com/igm/cf90`
+`$ go get -u github.com/igm/cf90`
 
 This tool uses CF for GO library (http://github.com/igm/cf)
 
