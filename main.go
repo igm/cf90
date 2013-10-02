@@ -5,10 +5,12 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"github.com/igm/cf"
 	"log"
+	"net/http"
 	"os/user"
 	"sort"
 	"strings"
@@ -62,6 +64,15 @@ func init() {
 		if len(parsed) == 2 {
 			params[parsed[0]] = parsed[1]
 		}
+	}
+
+	// use more toleran HTTP Client
+	cf.HttpClient = &http.Client{
+		Transport: http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			Proxy:           http.ProxyFromEnvironment,
+		},
+		CheckRedirect: http.DefaultClient.CheckRedirect,
 	}
 }
 
