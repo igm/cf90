@@ -1,9 +1,6 @@
 package main
 
 import (
-	"errors"
-	"fmt"
-	"github.com/igm/cf"
 	"log"
 )
 
@@ -23,39 +20,14 @@ func space_use() {
 		log.Fatal(err)
 	}
 
-	orgGUID, err := c.SelectedOrg()
+	spaces, err := target.SpacesGet(target.OrgGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	spaces, err := target.SpacesGet(orgGUID)
+	i, err := choose(SpaceList(spaces))
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	space, err := chooseSpace(spaces)
-	if err != nil {
-		log.Fatal(err)
-	}
-	c.data.ActiveSpace = space.Guid
-}
-
-func chooseSpace(spaces []cf.Space) (space cf.Space, err error) {
-	fmt.Println("Spaces:")
-	for i, space := range spaces {
-		active := ""
-		if c.data.ActiveSpace == space.Guid {
-			active = "[current]"
-		}
-		fmt.Printf("  (%d) %s %s\n", i+1, space.Name, active)
-	}
-
-	fmt.Print("Select space: ")
-	var sp int
-	if _, err = fmt.Scanf("%d ", &sp); err == nil && sp > 0 && sp <= len(spaces) {
-		space = spaces[sp-1]
-	} else {
-		err = errors.New("No space selected")
-	}
-	return
+	target.Space = spaces[i].Name
+	target.SpaceGuid = spaces[i].Guid
 }

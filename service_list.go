@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -23,9 +22,5 @@ func service_list() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("\n%-15s %-9s %-15s %s\n", "Service", "Version", "Provider", "Description")
-	for _, service := range services {
-		fmt.Printf("%-15s %-9s %-15s %s\n", service.Label, service.Version, service.Provider, service.Description)
-	}
+	list(ServiceList(services))
 }

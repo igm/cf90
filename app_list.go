@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -19,14 +18,9 @@ func app_list() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	summary, err := target.Summary(c.data.ActiveSpace)
+	summary, err := target.Summary(target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Name                     Status      Usage      URL")
-	for _, app := range summary.Apps {
-		instances := fmt.Sprintf("%d x %dM", app.Instances, app.Memory)
-		fmt.Printf("%-25s%-12s%-11s%-13s\n", app.Name, app.State, instances, app.Urls)
-	}
+	list(AppList(summary.Apps))
 }

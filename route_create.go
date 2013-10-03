@@ -24,11 +24,7 @@ func route_create() {
 		log.Fatal(err)
 	}
 
-	spaceGUID := c.data.ActiveSpace
-	if spaceGUID == "" {
-		log.Fatal("no spaces selected.")
-	}
-	domains, err := target.DomainsGet(spaceGUID)
+	domains, err := target.DomainsGet(target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,20 +47,14 @@ func route_create() {
 	}
 
 	if domainGUID == "" {
-		fmt.Println("Domains:")
-		for i, domain := range domains {
-			fmt.Printf(" (%d) %s\n", i+1, domain.Name)
-		}
-		fmt.Print("Select domain: ")
-		var selection int
-		if _, err = fmt.Scanf("%d\n", &selection); err != nil {
+		index, err := choose(DomainList(domains))
+		if err != nil {
 			log.Fatal(err)
-		} else {
-			domainGUID = domains[selection-1].Guid
 		}
+		domainGUID = domains[index].Guid
 	}
 
-	err = target.RouteCreate(name, domainGUID, spaceGUID)
+	err = target.RouteCreate(name, domainGUID, target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}

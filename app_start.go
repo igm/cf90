@@ -19,7 +19,7 @@ func app_start() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	summary, err := target.Summary(c.data.ActiveSpace)
+	summary, err := target.Summary(target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,10 +32,11 @@ func app_start() {
 	}
 
 	if appId == "" {
-		name, appId, err = chooseApplication(summary)
+		i, err := choose(AppList(summary.Apps))
 		if err != nil {
 			log.Fatal(err)
 		}
+		appId = summary.Apps[i].Guid
 	}
 
 	err = target.AppStart(appId)

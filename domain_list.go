@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -19,14 +18,9 @@ func domain_list() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	domains, err := target.DomainsGet(c.data.ActiveSpace)
+	domains, err := target.DomainsGet(target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Domains:")
-	for _, domain := range domains {
-		fmt.Printf("  %s\n", domain.Name)
-	}
+	list(DomainList(domains))
 }

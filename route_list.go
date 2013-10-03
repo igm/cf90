@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -25,9 +24,5 @@ func route_list() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Routes:")
-	fmt.Printf("  %-15s %s\n", "Host", "Domain")
-	for _, route := range routes {
-		fmt.Printf("  %-15s %s\n", route.Host, route.Domain.Name)
-	}
+	list(RouteList(routes))
 }

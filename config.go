@@ -7,14 +7,21 @@ import (
 	"os"
 )
 
+type Target struct {
+	Alias     string `json:"alias"`
+	Org       string `json:"org"`
+	OrgGuid   string `json:"org_guid"`
+	Space     string `json:"space"`
+	SpaceGuid string `json:"space_guid"`
+	*cf.Target
+}
+
 type Config struct {
 	filename string
 	trace    bool
 	data     struct {
-		ActiveTarget int          `json:"selected"`
-		ActiveOrg    string       `json:"org"`
-		ActiveSpace  string       `json:"space"`
-		Targets      []*cf.Target `json:"targets"`
+		ActiveTarget int       `json:"selected"`
+		Targets      []*Target `json:"targets"`
 	}
 }
 
@@ -43,7 +50,11 @@ func (c *Config) Save() (err error) {
 	return
 }
 
-func (c *Config) AddTarget(target *cf.Target) {
+func NewTarget(host, alias string) *Target {
+	return &Target{Target: cf.NewTarget(host), Alias: alias}
+}
+
+func (c *Config) AddTarget(target *Target) {
 	for _, existing := range c.data.Targets {
 		if existing.TargetUrl == target.TargetUrl {
 			return
@@ -52,7 +63,15 @@ func (c *Config) AddTarget(target *cf.Target) {
 	c.data.Targets = append(c.data.Targets, target)
 }
 
-func (c *Config) SelectedTarget() (*cf.Target, error) {
+func (c *Config) RemoveTarget(target *Target) {
+	for i, existing := range c.data.Targets {
+		if existing.TargetUrl == target.TargetUrl {
+			c.data.Targets = append(c.data.Targets[:i], c.data.Targets[i+1:]...)
+		}
+	}
+}
+
+func (c *Config) SelectedTarget() (*Target, error) {
 	if c.data.ActiveTarget >= len(c.data.Targets) {
 		return nil, errors.New("Not target selected.")
 	}
@@ -70,9 +89,11 @@ func (c *Config) Select(host string) error {
 	return errors.New("Target does not  exist")
 }
 
-func (c *Config) SelectedOrg() (string, error) {
-	if c.data.ActiveOrg == "" {
-		return c.data.ActiveOrg, errors.New("No organization selected.")
+func (c *Config) GetTarget(host string) (*Target, error) {
+	for _, existing := range c.data.Targets {
+		if existing.TargetUrl == host {
+			return existing, nil
+		}
 	}
-	return c.data.ActiveOrg, nil
+	return nil, errors.New("Target does not  exist")
 }

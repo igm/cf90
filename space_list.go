@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -20,22 +19,9 @@ func space_list() {
 		log.Fatal(err)
 	}
 
-	orgGUID, err := c.SelectedOrg()
+	spaces, err := target.SpacesGet(target.OrgGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	spaces, err := target.SpacesGet(orgGUID)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Spaces:")
-	for i, space := range spaces {
-		active := ""
-		if c.data.ActiveSpace == space.Guid {
-			active = "[current]"
-		}
-		fmt.Printf("  (%d) %s %s\n", i+1, space.Name, active)
-	}
+	list(SpaceList(spaces))
 }

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"code.google.com/p/gopass"
+	"errors"
 	"fmt"
-	"github.com/igm/cf"
 	"log"
 )
 
@@ -12,34 +11,32 @@ func init() {
 		group:  "Target",
 		name:   "target.use",
 		help:   "Set current target",
-		params: []Param{Param{name: "target", desc: "Target URL"}},
+		params: []Param{Param{name: "alias", desc: "Target alias"}},
 		handle: target_use,
 	})
 }
 
 func target_use() {
-	targetUrl, exists := params["target"]
+	alias := params["alias"]
 
-	if !exists {
-		fmt.Print("Target URL: ")
-		fmt.Scanf("%s\n", &targetUrl)
-	}
-
-	if c.Select(targetUrl) != nil {
-		var login, password string
-		fmt.Printf("Login: ")
-		fmt.Scanf("%s\n", &login)
-		password, err := gopass.GetPass("Password: ")
-		target, err := cf.Login(targetUrl, login, password)
+	idx, err := c.TargetByAlias(alias)
+	if err != nil {
+		log.Println(err)
+		idx, err = choose(TargetList(c.data.Targets))
 		if err != nil {
 			log.Fatal(err)
 		}
-		c.AddTarget(target)
-		c.Select(targetUrl)
-
 	}
-	org_use()
-	space_use()
 
+	c.data.ActiveTarget = idx
 	return
+}
+
+func (c *Config) TargetByAlias(alias string) (int, error) {
+	for i, target := range c.data.Targets {
+		if target.Alias == alias {
+			return i, nil
+		}
+	}
+	return -1, errors.New(fmt.Sprintf("Target given by alias='%s' not found.", alias))
 }

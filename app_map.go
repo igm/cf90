@@ -24,7 +24,7 @@ func app_map() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	summary, err := target.Summary(c.data.ActiveSpace)
+	summary, err := target.Summary(target.SpaceGuid)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,10 +42,11 @@ func app_map() {
 	}
 
 	if appId == "" {
-		name, appId, err = chooseApplication(summary)
+		i, err := choose(AppList(summary.Apps))
 		if err != nil {
 			log.Fatal(err)
 		}
+		appId = summary.Apps[i].Guid
 	}
 
 	host := params["host"]
@@ -59,10 +60,11 @@ func app_map() {
 	}
 
 	if routeGUID == "" {
-		routeGUID, err = chooseRoute(target)
+		index, err := choose(RouteList(routes))
 		if err != nil {
 			log.Fatal(err)
 		}
+		routeGUID = routes[index].Guid
 	}
 
 	err = target.AppAddRoute(appId, routeGUID)

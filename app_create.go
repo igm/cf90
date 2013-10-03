@@ -52,7 +52,7 @@ func app_create() {
 	}
 
 	app, err := target.AppCreate(&cf.NewApp{
-		SpaceGUID: c.data.ActiveSpace,
+		SpaceGUID: target.SpaceGuid,
 		Name:      appname,
 		Memory:    int(memory),
 		Instances: int(instances),

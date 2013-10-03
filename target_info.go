@@ -24,6 +24,12 @@ func target_info() {
 		log.Fatal(err)
 	}
 	fmt.Println("")
+	fmt.Println("Alias                  :", target.Alias)
+	fmt.Println("URL                    :", target.TargetUrl)
+	fmt.Println("Username               :", target.Username)
+	fmt.Println("Organization           :", target.Org)
+	fmt.Println("Space                  :", target.Space)
+	fmt.Println("")
 	fmt.Println("Name                   :", info.Name)
 	fmt.Println("Build                  :", info.Build)
 	fmt.Println("Support                :", info.Support)

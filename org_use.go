@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -26,18 +25,13 @@ func org_use() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Organizations:")
-	for i, org := range orgs {
-		active := ""
-		if c.data.ActiveOrg == org.Guid {
-			active = "[current]"
-		}
-		fmt.Printf("  (%d) %s %s\n", i+1, org.Name, active)
+	i, err := choose(OrgList(orgs))
+	if err != nil {
+		log.Fatal(err)
 	}
-	fmt.Print("Select organization: ")
-	var org int
-	if _, err = fmt.Scanf("%d ", &org); err == nil && org > 0 && org <= len(orgs) {
-		c.data.ActiveOrg = orgs[org-1].Guid
-	}
+
+	target.Org = orgs[i].Name
+	target.OrgGuid = orgs[i].Guid
+
 	return
 }

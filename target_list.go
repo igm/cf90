@@ -14,13 +14,8 @@ func init() {
 }
 
 func target_list() {
-	fmt.Println("Known Targets:")
-	selected, _ := c.SelectedTarget()
-	for i, target := range c.data.Targets {
-		if target == selected {
-			fmt.Printf("  (%d) %s [current]\n", i+1, target.TargetUrl)
-		} else {
-			fmt.Printf("  (%d) %s \n", i+1, target.TargetUrl)
-		}
+	list(TargetList(c.data.Targets))
+	if selected, err := c.SelectedTarget(); err == nil {
+		fmt.Println("\nCurrent target:", selected.TargetUrl)
 	}
 }

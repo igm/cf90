@@ -49,7 +49,7 @@ func help() {
 			fmt.Printf("%s\n", cmd.group)
 			group = cmd.group
 		}
-		fmt.Printf("  %-12s - %s\n", cmd.name, cmd.help)
+		fmt.Printf("  %-15s - %s\n", cmd.name, cmd.help)
 	}
 	fmt.Println("")
 }

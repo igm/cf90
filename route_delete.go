@@ -1,9 +1,6 @@
 package main
 
 import (
-	"errors"
-	"fmt"
-	"github.com/igm/cf"
 	"log"
 )
 
@@ -42,34 +39,15 @@ func route_delete() {
 	}
 
 	if routeGUID == "" {
-		routeGUID, err = chooseRoute(target)
+		index, err := choose(RouteList(routes))
 		if err != nil {
 			log.Fatal(err)
 		}
+		routeGUID = routes[index].Guid
 	}
 
 	err = target.RouteDelete(routeGUID)
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func chooseRoute(target *cf.Target) (routeGUID string, err error) {
-	routes, err := target.RoutesGet()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Routes:")
-	for i, route := range routes {
-		fmt.Printf("  (%2d) %-15s %s\n", i+1, route.Host, route.Domain.Name)
-	}
-	fmt.Print("Select route: ")
-	var index int
-	if _, err = fmt.Scanf("%d\n", &index); err == nil && index > 0 && index <= len(routes) {
-		routeGUID = routes[index-1].Guid
-	} else {
-		err = errors.New("No route selected.")
-	}
-	return
 }

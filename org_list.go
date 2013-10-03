@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -25,12 +24,5 @@ func org_list() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Organizations:")
-	for _, org := range orgs {
-		active := ""
-		if c.data.ActiveOrg == org.Guid {
-			active = "[current]"
-		}
-		fmt.Printf("  %s %s\n", org.Name, active)
-	}
+	list(OrgList(orgs))
 }
