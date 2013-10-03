@@ -16,6 +16,6 @@ func init() {
 func target_list() {
 	list(TargetList(c.data.Targets))
 	if selected, err := c.SelectedTarget(); err == nil {
-		fmt.Println("\nCurrent target:", selected.TargetUrl)
+		fmt.Printf("Current target: %s [%s]\n", selected.Alias, selected.TargetUrl)
 	}
 }

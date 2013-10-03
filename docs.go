@@ -10,11 +10,11 @@ Application
   app.stop      name=APPNAME
   app.delete    name=APPNAME
   app.map       name=APPNAM host=HOST domain=DOMAIN
+  app.unmap
 
   TODO:
   app.detail
   app.scale
-  app.unmap
   app.logs
   app.stats
   app.crashlogs
@@ -65,8 +65,14 @@ Domain
   domain.unmap
 
 Target
+  target.add
+  target.info
   target.list
-  target.use  target=TARGETURL
+  target.login
+  target.logout
+  target.rm
+  target.use
+
 
 */
 package main

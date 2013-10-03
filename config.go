@@ -98,3 +98,12 @@ func (c *Config) GetTarget(host string) (*Target, error) {
 	}
 	return nil, errors.New("Target does not  exist")
 }
+
+func (c *Config) GetTargetByAlias(alias string) (*Target, error) {
+	for _, existing := range c.data.Targets {
+		if existing.Alias == alias {
+			return existing, nil
+		}
+	}
+	return nil, errors.New("Target does not  exist")
+}

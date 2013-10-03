@@ -17,9 +17,9 @@ func init() {
 }
 
 func target_login() {
-	targetUrl := params["alias"]
+	alias := params["alias"]
 
-	target, err := c.GetTarget(targetUrl)
+	target, err := c.GetTargetByAlias(alias)
 	if err != nil {
 		index, err := choose(TargetList(c.data.Targets))
 		if err != nil {
