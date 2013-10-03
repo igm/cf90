@@ -18,7 +18,7 @@ func domain_list() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	domains, err := target.DomainsGet(target.SpaceGuid)
+	domains, err := target.DomainsGet()
 	if err != nil {
 		log.Fatal(err)
 	}

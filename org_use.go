@@ -4,7 +4,8 @@ import (
 	"log"
 )
 
-func init() {
+// space.use also sets org
+func init_deprecated() {
 	register(&Command{
 		group:  "Organization",
 		name:   "org.use",

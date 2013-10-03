@@ -8,7 +8,7 @@ func init() {
 	register(&Command{
 		group:  "Space",
 		name:   "space.use",
-		help:   "Set default space",
+		help:   "Set default space (and also organization)",
 		params: []Param{Param{name: "space", desc: "Space name"}},
 		handle: space_use,
 	})
@@ -20,7 +20,7 @@ func space_use() {
 		log.Fatal(err)
 	}
 
-	spaces, err := target.SpacesGet(target.OrgGuid)
+	spaces, err := target.SpacesGet()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,4 +30,6 @@ func space_use() {
 	}
 	target.Space = spaces[i].Name
 	target.SpaceGuid = spaces[i].Guid
+	target.Org = spaces[i].Organization.Name
+	target.OrgGuid = spaces[i].Organization.Guid
 }

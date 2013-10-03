@@ -19,7 +19,7 @@ func space_list() {
 		log.Fatal(err)
 	}
 
-	spaces, err := target.SpacesGet(target.OrgGuid)
+	spaces, err := target.SpacesGet()
 	if err != nil {
 		log.Fatal(err)
 	}
