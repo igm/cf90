@@ -56,7 +56,7 @@ func NewTarget(host, alias string) *Target {
 
 func (c *Config) AddTarget(target *Target) {
 	for _, existing := range c.data.Targets {
-		if existing.TargetUrl == target.TargetUrl {
+		if existing.TargetUrl == target.TargetUrl && existing.Alias == target.Alias {
 			return
 		}
 	}
