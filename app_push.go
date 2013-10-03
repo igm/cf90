@@ -25,24 +25,24 @@ func app_push() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	summary, err := target.Summary(target.SpaceGuid)
+	apps, err := target.AppsGet()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	name, path, appId := params["name"], params["path"], ""
-	for _, app := range summary.Apps {
+	for _, app := range apps {
 		if app.Name == name {
 			appId = app.Guid
 		}
 	}
 
 	if appId == "" {
-		i, err := choose(AppList(summary.Apps))
+		i, err := choose(AppList(apps))
 		if err != nil {
 			log.Fatal(err)
 		}
-		appId = summary.Apps[i].Guid
+		appId = apps[i].Guid
 	}
 
 	var archetypes []*cf.Archetype

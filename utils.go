@@ -32,10 +32,10 @@ func choose(s Selectable) (selectedIndex int, err error) {
 }
 
 func list(s Listable) {
-	fmt.Printf("    %s\n", s.Title())
+	fmt.Printf("     %s\n", s.Title())
 	itemsCount := s.Len()
 	for i := 0; i < itemsCount; i++ {
-		fmt.Printf("(%d) %s\n", i+1, s.Render(i))
+		fmt.Printf("(%-2d) %s\n", i+1, s.Render(i))
 	}
 }
 

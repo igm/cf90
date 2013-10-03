@@ -19,10 +19,6 @@ func target_info() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	info, err := target.Info()
-	if err != nil {
-		log.Fatal(err)
-	}
 	fmt.Println("")
 	fmt.Println("Alias                  :", target.Alias)
 	fmt.Println("URL                    :", target.TargetUrl)
@@ -30,6 +26,10 @@ func target_info() {
 	fmt.Println("Organization           :", target.Org)
 	fmt.Println("Space                  :", target.Space)
 	fmt.Println("")
+	info, err := target.Info()
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println("Name                   :", info.Name)
 	fmt.Println("Build                  :", info.Build)
 	fmt.Println("Support                :", info.Support)

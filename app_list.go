@@ -18,9 +18,9 @@ func app_list() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	summary, err := target.Summary(target.SpaceGuid)
+	apps, err := target.AppsGet()
 	if err != nil {
 		log.Fatal(err)
 	}
-	list(AppList(summary.Apps))
+	list(AppList(apps))
 }

@@ -7,23 +7,24 @@ import (
 func init() {
 	register(&Command{
 		group: "Application",
-		name:  "app.map",
-		help:  "Map application to given host and domain (route must already exist)",
+		name:  "app.unmap",
+		help:  "Unmap application from given host and domain (route must already exist)",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
 			Param{name: "host", desc: "Host name"},
 			Param{name: "domain", desc: "Domain name"},
 		},
-		handle: app_map,
+		handle: app_unmap,
 	})
 }
 
-func app_map() {
+func app_unmap() {
 
 	target, err := c.SelectedTarget()
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	apps, err := target.AppsGet()
 	if err != nil {
 		log.Fatal(err)
@@ -47,7 +48,7 @@ func app_map() {
 	// Get RouteID
 	host := params["host"]
 	domain := params["domain"]
-	routes, err := target.RoutesGet()
+	routes, err := target.AppRoutesGet(appId)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -66,9 +67,8 @@ func app_map() {
 	}
 
 	// Perform action
-	err = target.AppAddRoute(appId, routeGUID)
+	err = target.AppDeleteRoute(appId, routeGUID)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
