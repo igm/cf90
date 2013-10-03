@@ -54,13 +54,14 @@ func NewTarget(host, alias string) *Target {
 	return &Target{Target: cf.NewTarget(host), Alias: alias}
 }
 
-func (c *Config) AddTarget(target *Target) {
+func (c *Config) AddTarget(target *Target) error {
 	for _, existing := range c.data.Targets {
-		if existing.TargetUrl == target.TargetUrl && existing.Alias == target.Alias {
-			return
+		if existing.Alias == target.Alias {
+			return errors.New("Duplicate alias.")
 		}
 	}
 	c.data.Targets = append(c.data.Targets, target)
+	return nil
 }
 
 func (c *Config) RemoveTarget(target *Target) {

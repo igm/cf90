@@ -20,7 +20,7 @@ func target_use() {
 	alias := params["alias"]
 
 	idx, err := c.TargetByAlias(alias)
-	if err != nil {
+	if err != nil || alias == "" {
 		log.Println(err)
 		idx, err = choose(TargetList(c.data.Targets))
 		if err != nil {

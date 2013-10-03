@@ -35,5 +35,7 @@ func target_add() {
 		}
 	}
 
-	c.AddTarget(NewTarget(targetUrl, alias))
+	if err := c.AddTarget(NewTarget(targetUrl, alias)); err != nil {
+		log.Fatal(err)
+	}
 }
