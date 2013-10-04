@@ -51,7 +51,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	configFile := fmt.Sprintf("%s/.cf/cf90.conf", user.HomeDir)
+	configFile := fmt.Sprintf("%s/.cf90", user.HomeDir)
 	c, _ = NewConfig(configFile)
 
 	flag.BoolVar(&cf.Trace, "t", false, "Enable HTTP tracing")

@@ -11,7 +11,7 @@ Application
   app.delete    name=APPNAME
   app.map       name=APPNAM host=HOST domain=DOMAIN
   app.unmap
-  app.info
+  app.detail
 
   TODO:
   app.scale

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"code.google.com/p/gopass"
 	"fmt"
+	"github.com/igm/cf90/echo"
 	"log"
 )
 
@@ -31,7 +31,11 @@ func target_login() {
 	var login, password string
 	fmt.Printf("Login: ")
 	fmt.Scanf("%s\n", &login)
-	password, err = gopass.GetPass("Password: ")
+	fmt.Printf("Password: ")
+	echo.EchoOff(func() {
+		fmt.Scanf("%s\n", &password)
+	})
+	// password, err = gopass.GetPass("Password: ")
 
 	err = target.Login(login, password)
 	if err != nil {
