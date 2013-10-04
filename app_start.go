@@ -1,7 +1,13 @@
 package main
 
 import (
+	"bytes"
+	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"os"
+	"time"
 )
 
 func init() {
@@ -25,8 +31,35 @@ func app_start() {
 		log.Fatal(err)
 	}
 
-	err = target.AppStart(app.Guid)
+	resp, err := target.AppStart(app.Guid)
 	if err != nil {
 		log.Fatal(err)
+	}
+	stagingUrl := resp.Header.Get("X-App-Staging-Log")
+	if stagingUrl != "" {
+		readStaging(stagingUrl)
+	}
+}
+
+func readStaging(url string) {
+	written := 0
+	for {
+		resp, err := http.Get(url)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if resp.StatusCode == http.StatusNotFound {
+			return
+		}
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if len(body) > written {
+			io.Copy(os.Stdout, bytes.NewReader(body[written:]))
+			written = len(body)
+		}
+		resp.Body.Close()
+		<-time.After(1 * time.Second)
 	}
 }

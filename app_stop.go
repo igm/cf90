@@ -24,7 +24,7 @@ func app_stop() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = target.AppStop(app.Guid)
+	_, err = target.AppStop(app.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}
