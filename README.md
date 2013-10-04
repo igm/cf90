@@ -12,31 +12,38 @@ This tool uses CF for GO library (http://github.com/igm/cf)
 
 ```
 Commands:
-  help         - Shows this help message, use [COMMAND] for command parameters
-  license      - show license information
+  help            - Shows this help message, use [COMMAND] for command parameters
+  license         - show license information
 Application
-  app.addroute - Add route to application
-  app.create   - Create new application
-  app.delete   - Delete application
-  app.list     - Show a list of apps
-  app.push     - Push application
-  app.start    - Start application
-  app.stop     - Stop application
+  app.create      - Create new application
+  app.delete      - Delete application
+  app.detail      - Show application info
+  app.list        - Show a list of apps
+  app.map         - Map application to given host and domain (route must already exist)
+  app.push        - Push application
+  app.start       - Start application
+  app.stop        - Stop application
+  app.unmap       - Unmap application from given host and domain (route must already exist)
 Domain
-  domain.list  - Show a list of domains
+  domain.list     - Show a list of domains
 Organization
-  org.list     - Show all organizations
-  org.use      - Set default organization
+  org.detail      - Show organization detail
+  org.list        - Show all organizations
 Route
-  route.create - Create a route in current space
-  route.delete - Delete route
-  route.list   - Show all routes
+  route.create    - Create a route in current space
+  route.delete    - Delete route
+  route.list      - Show all routes
 Service
-  service.list - Show a list of services
+  service.list    - Show a list of services
 Space
-  space.list   - Show all spaces in organization
-  space.use    - Set default space
+  space.list      - Show all spaces in organization
+  space.use       - Set default space (and also organization)
 Target
-  target.list  - Show known targets
-  target.use   - Set current target
+  target.add      - Add new target
+  target.info     - Show target information
+  target.list     - Show known targets
+  target.login    - Login to target
+  target.logout   - Logout from target
+  target.rm       - Remove target from the list of known targets
+  target.use      - Set current target
 ```
