@@ -11,6 +11,9 @@ func init() {
 		help:  "Map application to given host and domain (route must already exist)",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
+			Param{name: "space", desc: "Space name"},
+			Param{name: "org", desc: "Organization name"},
+
 			Param{name: "host", desc: "Host name"},
 			Param{name: "domain", desc: "Domain name"},
 		},
@@ -24,49 +27,21 @@ func app_map() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	apps, err := target.AppsGet()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// Get Application ID
-	name, appId := params["name"], ""
-	for _, app := range apps {
-		if app.Name == name {
-			appId = app.Guid
-		}
-	}
-	if appId == "" {
-		i, err := choose(AppList(apps))
-		if err != nil {
-			log.Fatal(err)
-		}
-		appId = apps[i].Guid
+	app, err := target.AppFind(params["name"], params["space"], params["org"])
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// Get RouteID
-	host := params["host"]
-	domain := params["domain"]
-	routes, err := target.RoutesGet()
+	route, err := target.RouteFind(params["host"], params["domain"])
 	if err != nil {
 		log.Fatal(err)
 	}
-	routeGUID := ""
-	for _, route := range routes {
-		if route.Host == host && route.Domain.Name == domain {
-			routeGUID = route.Guid
-		}
-	}
-	if routeGUID == "" {
-		index, err := choose(RouteList(routes))
-		if err != nil {
-			log.Fatal(err)
-		}
-		routeGUID = routes[index].Guid
-	}
 
 	// Perform action
-	err = target.AppAddRoute(appId, routeGUID)
+	err = target.AppAddRoute(app.Guid, route.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}

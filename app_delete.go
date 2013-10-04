@@ -6,10 +6,14 @@ import (
 
 func init() {
 	register(&Command{
-		group:  "Application",
-		name:   "app.delete",
-		help:   "Delete application",
-		params: []Param{Param{name: "name", desc: "Application name"}},
+		group: "Application",
+		name:  "app.delete",
+		help:  "Delete application",
+		params: []Param{
+			Param{name: "name", desc: "Application name"},
+			Param{name: "space", desc: "Space name"},
+			Param{name: "org", desc: "Organization name"},
+		},
 		handle: app_delete,
 	})
 }
@@ -20,27 +24,13 @@ func app_delete() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	apps, err := target.AppsGet()
+	// Get Application ID
+	app, err := target.AppFind(params["name"], params["space"], params["org"])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	name, appId := params["name"], ""
-	for _, app := range apps {
-		if app.Name == name {
-			appId = app.Guid
-		}
-	}
-
-	if appId == "" {
-		i, err := choose(AppList(apps))
-		if err != nil {
-			log.Fatal(err)
-		}
-		appId = apps[i].Guid
-	}
-
-	err = target.AppDelete(appId)
+	err = target.AppDelete(app.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}

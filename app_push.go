@@ -26,26 +26,14 @@ func app_push() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	apps, err := target.AppsGet()
+
+	// Get Application ID
+	app, err := target.AppFind(params["name"], params["space"], params["org"])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	name, path, appId := params["name"], params["path"], ""
-	for _, app := range apps {
-		if app.Name == name {
-			appId = app.Guid
-		}
-	}
-
-	if appId == "" {
-		i, err := choose(AppList(apps))
-		if err != nil {
-			log.Fatal(err)
-		}
-		appId = apps[i].Guid
-	}
-
+	path := params["path"]
 	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
@@ -73,12 +61,12 @@ func app_push() {
 			}
 			return nil
 		})
-		err = target.AppPush(appId, archetypes)
+		err = target.AppPush(app.Guid, archetypes)
 		if err != nil {
 			log.Fatal(err)
 		}
 	} else {
 		fmt.Println("Pushing file:", stat.Name())
-		err = target.AppPushArchive(appId, file)
+		err = target.AppPushArchive(app.Guid, file)
 	}
 }

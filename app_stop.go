@@ -19,27 +19,12 @@ func app_stop() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	apps, err := target.AppsGet()
+	// Get Application ID
+	app, err := target.AppFind(params["name"], params["space"], params["org"])
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	name, appId := params["name"], ""
-	for _, app := range apps {
-		if app.Name == name {
-			appId = app.Guid
-		}
-	}
-
-	if appId == "" {
-		i, err := choose(AppList(apps))
-		if err != nil {
-			log.Fatal(err)
-		}
-		appId = apps[i].Guid
-	}
-
-	err = target.AppStop(appId)
+	err = target.AppStop(app.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}

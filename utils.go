@@ -44,3 +44,13 @@ func enterText(label string) (input string, err error) {
 	_, err = fmt.Scanf("%s\n", &input)
 	return
 }
+
+func find(s Listable, f func(int) bool) (pos int, ok bool) {
+	itemsCount := s.Len()
+	for i := 0; i < itemsCount; i++ {
+		if f(i) {
+			return i, true
+		}
+	}
+	return -1, false
+}

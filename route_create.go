@@ -11,8 +11,10 @@ func init() {
 		name:  "route.create",
 		help:  "Create a route in current space",
 		params: []Param{
-			Param{name: "host", desc: "host name"},
-			Param{name: "domain", desc: "domain name"},
+			Param{name: "host", desc: "Host name"},
+			Param{name: "domain", desc: "Domain name"},
+			Param{name: "space", desc: "Space name"},
+			Param{name: "org", desc: "Organization name"},
 		},
 		handle: route_create,
 	})
@@ -28,6 +30,18 @@ func route_create() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	i, err := DomainList(domains).FindOrPick(params["domain"])
+	if err != nil {
+		log.Fatal(err)
+	}
+	domain := domains[i]
+
+	spaces := domain.Spaces
+	i, err = SpaceList(spaces).FindOrPick(params["space"], params["org"])
+	if err != nil {
+		log.Fatal(err)
+	}
+	space := spaces[i]
 
 	name, exists := params["host"]
 	if !exists {
@@ -38,23 +52,7 @@ func route_create() {
 		}
 	}
 
-	domainGUID := ""
-	domainName := params["domain"]
-	for _, domain := range domains {
-		if domain.Name == domainName {
-			domainGUID = domain.Guid
-		}
-	}
-
-	if domainGUID == "" {
-		index, err := choose(DomainList(domains))
-		if err != nil {
-			log.Fatal(err)
-		}
-		domainGUID = domains[index].Guid
-	}
-
-	err = target.RouteCreate(name, domainGUID, target.SpaceGuid)
+	err = target.RouteCreate(name, domain.Guid, space.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}

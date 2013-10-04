@@ -14,6 +14,8 @@ func init() {
 		help:  "Create new application",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
+			Param{name: "org", desc: "Organization name"},
+			Param{name: "space", desc: "Space name"},
 			Param{name: "mem", desc: "Memory allocation [MB]"},
 			Param{name: "instances", desc: "Number of instances"},
 		},
@@ -23,6 +25,11 @@ func init() {
 
 func app_create() {
 	target, err := c.SelectedTarget()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	space, err := target.SpaceFind(params["space"], params["org"])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,8 +58,8 @@ func app_create() {
 		}
 	}
 
-	app, err := target.AppCreate(&cf.NewApp{
-		SpaceGUID: target.SpaceGuid,
+	_, err = target.AppCreate(&cf.NewApp{
+		SpaceGUID: space.Guid,
 		Name:      appname,
 		Memory:    int(memory),
 		Instances: int(instances),
@@ -61,5 +68,5 @@ func app_create() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Application created: ", app.Name)
+	// fmt.Println("Application created: ", app.Name)
 }

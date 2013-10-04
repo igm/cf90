@@ -23,8 +23,6 @@ func target_info() {
 	fmt.Println("Alias                  :", target.Alias)
 	fmt.Println("URL                    :", target.TargetUrl)
 	fmt.Println("Username               :", target.Username)
-	fmt.Println("Organization           :", target.Org)
-	fmt.Println("Space                  :", target.Space)
 	fmt.Println("")
 	info, err := target.Info()
 	if err != nil {

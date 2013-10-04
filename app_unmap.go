@@ -19,36 +19,21 @@ func init() {
 }
 
 func app_unmap() {
-
 	target, err := c.SelectedTarget()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	apps, err := target.AppsGet()
+	// Get Application ID
+	app, err := target.AppFind(params["name"], params["space"], params["org"])
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	// Get Application ID
-	name, appId := params["name"], ""
-	for _, app := range apps {
-		if app.Name == name {
-			appId = app.Guid
-		}
-	}
-	if appId == "" {
-		i, err := choose(AppList(apps))
-		if err != nil {
-			log.Fatal(err)
-		}
-		appId = apps[i].Guid
 	}
 
 	// Get RouteID
 	host := params["host"]
 	domain := params["domain"]
-	routes, err := target.AppRoutesGet(appId)
+	routes, err := target.AppRoutesGet(app.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,7 +52,7 @@ func app_unmap() {
 	}
 
 	// Perform action
-	err = target.AppDeleteRoute(appId, routeGUID)
+	err = target.AppDeleteRoute(app.Guid, routeGUID)
 	if err != nil {
 		log.Fatal(err)
 	}

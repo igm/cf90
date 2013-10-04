@@ -7,15 +7,6 @@ import (
 	"os"
 )
 
-type Target struct {
-	Alias     string `json:"alias"`
-	Org       string `json:"org"`
-	OrgGuid   string `json:"org_guid"`
-	Space     string `json:"space"`
-	SpaceGuid string `json:"space_guid"`
-	*cf.Target
-}
-
 type Config struct {
 	filename string
 	trace    bool

@@ -23,30 +23,12 @@ func route_delete() {
 		log.Fatal(err)
 	}
 
-	routes, err := target.RoutesGet()
+	route, err := target.RouteFind(params["host"], params["domain"])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	host := params["host"]
-	domain := params["domain"]
-
-	routeGUID := ""
-	for _, route := range routes {
-		if route.Host == host && route.Domain.Name == domain {
-			routeGUID = route.Guid
-		}
-	}
-
-	if routeGUID == "" {
-		index, err := choose(RouteList(routes))
-		if err != nil {
-			log.Fatal(err)
-		}
-		routeGUID = routes[index].Guid
-	}
-
-	err = target.RouteDelete(routeGUID)
+	err = target.RouteDelete(route.Guid)
 	if err != nil {
 		log.Fatal(err)
 	}
