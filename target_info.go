@@ -36,6 +36,7 @@ func target_info() {
 	fmt.Println("Version                :", info.Version)
 	fmt.Println("Description            :", info.Description)
 	fmt.Println("Authorization Endpoint :", info.AuthorizationEndpoint)
+	fmt.Println("Token Endpoint         :", info.TokenEndpoint)
 	fmt.Println("API Version            :", info.ApiVersion)
 	fmt.Println("")
 }
