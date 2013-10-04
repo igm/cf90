@@ -3,6 +3,7 @@
 package echo
 
 import (
+	"fmt"
 	"os"
 	"syscall"
 )
@@ -22,11 +23,12 @@ func echoOff(f func()) {
 	var newMode uint32 = (originalMode &^ ENABLE_ECHO_INPUT)
 
 	err = setConsoleMode(hStdin, newMode)
-	defer setConsoleMode(hStdin, originalMode)
 	if err != nil {
 		return
 	}
 	f()
+	setConsoleMode(hStdin, originalMode)
+	fmt.Println()
 }
 
 func setConsoleMode(console syscall.Handle, mode uint32) (err error) {
