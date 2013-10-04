@@ -9,16 +9,16 @@ import (
 func init() {
 	register(&Command{
 		group: "Application",
-		name:  "app.info",
+		name:  "app.detail",
 		help:  "Show application info",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
 		},
-		handle: app_info,
+		handle: app_detail,
 	})
 }
 
-func app_info() {
+func app_detail() {
 	target, err := c.SelectedTarget()
 	if err != nil {
 		log.Fatal(err)
