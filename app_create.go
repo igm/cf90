@@ -16,6 +16,7 @@ func init() {
 			Param{name: "name", desc: "Application name"},
 			Param{name: "org", desc: "Organization name"},
 			Param{name: "space", desc: "Space name"},
+			Param{name: "buildpack", desc: "URL of the custom buildpack to use"},
 			Param{name: "mem", desc: "Memory allocation [MB]"},
 			Param{name: "instances", desc: "Number of instances"},
 		},
@@ -58,12 +59,19 @@ func app_create() {
 		}
 	}
 
+	var bp *string = nil
+
+	if params["buildpack"] != "" {
+		bpack := params["buildpack"]
+		bp = &bpack
+	}
+
 	_, err = target.AppCreate(&cf.NewApp{
 		SpaceGUID: space.Guid,
 		Name:      appname,
 		Memory:    int(memory),
 		Instances: int(instances),
-		Buildpack: nil,
+		Buildpack: bp,
 	})
 	if err != nil {
 		log.Fatal(err)
