@@ -85,6 +85,12 @@ func main() {
 
 	for _, command := range commands {
 		if command.name == flag.Arg(0) {
+			// fill in default values
+			for _, param := range command.params {
+				if params[param.name] == "" && param.defval != "" {
+					params[param.name] = param.defval
+				}
+			}
 			command.handle()
 			return
 		}

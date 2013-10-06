@@ -52,7 +52,7 @@ func app_push() {
 				if err != nil {
 					return err
 				}
-				fmt.Println("Adding file:", info.Name())
+				fmt.Println("Adding file:", p)
 				norm, _ := filepath.Rel(path, p)
 				archetypes = append(archetypes, &cf.Archetype{
 					Name:   norm,
