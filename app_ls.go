@@ -32,7 +32,7 @@ func app_ls() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	files, err := target.AppLs(app.Guid, "0", params["dir"])
+	files, err := target.AppLs(app.Guid, params["instance"], params["dir"])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,21 +40,4 @@ func app_ls() {
 	for _, file := range files {
 		fmt.Printf("%-10s %s\n", file.Size, file.Name)
 	}
-	// fmt.Print(files)
 }
-
-/*
-GET /v2/apps/baf5421e-6b6d-479d-b3b4-7fa7f0ea37e1/instances/0/files/app/ HTTP/1.1
-Host: api.run.pivotal.io
-Accept: application/json
-Authorization: *
-User-Agent: cf90
-
-
-
-HTTP/1.1 200 OK
-Content-Length: 376
-Connection: keep-alive
-Content-Type: text/plain
-Date: Mon, 07 Oct 2013 09:03:12 GMT
-*/
