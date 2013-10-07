@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"github.com/igm/cf"
 	"log"
+	"time"
 )
 
 func init() {
@@ -14,13 +17,34 @@ func init() {
 }
 
 func app_list() {
-	target, err := c.SelectedTarget()
-	if err != nil {
-		log.Fatal(err)
+	ch := make(chan []cf.App)
+	go func() {
+		target, err := c.SelectedTarget()
+		if err != nil {
+			log.Fatal(err)
+		}
+		apps, err := target.AppsGet()
+		if err != nil {
+			log.Fatal(err)
+		}
+		ch <- apps
+	}()
+
+	go func() {
+		<-time.After(20 * time.Second)
+		log.Fatal("request timeout!")
+	}()
+
+	fmt.Print("sending request")
+	for {
+		fmt.Print(".")
+		select {
+		case apps := <-ch:
+			fmt.Println()
+			list(AppList(apps))
+			goto end
+		case <-time.After(500 * time.Millisecond):
+		}
 	}
-	apps, err := target.AppsGet()
-	if err != nil {
-		log.Fatal(err)
-	}
-	list(AppList(apps))
+end:
 }
