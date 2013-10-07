@@ -3,6 +3,7 @@ package main
 import (
 	"archive/zip"
 	"fmt"
+	"github.com/igm/cf"
 	"io"
 	"log"
 	"os"
@@ -64,7 +65,12 @@ func app_fetch() {
 				fmt.Printf("fetching %s\n", remoteFile)
 				reader, err := target.AppGet(app.Guid, instance, remoteFile)
 				if err != nil {
-					log.Fatal(err)
+					if cferr, ok := err.(*cf.Error); ok {
+						fmt.Println(cferr)
+						continue
+					} else {
+						log.Fatal(err)
+					}
 				}
 				w, err := zipWriter.Create(remoteFile)
 				if err != nil {
