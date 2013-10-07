@@ -18,7 +18,7 @@ Application
   app.logs
   app.stats
   app.crashlogs
-  app.restart
+  ?app.restart
   app.rename
   ?app.instance
   app.events

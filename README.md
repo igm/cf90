@@ -25,14 +25,17 @@ Commands:
   help            - Shows this help message, use [COMMAND] for command parameters
   license         - show license information
 Application
+  app.cat         - Get application instance file content
   app.create      - Create new application
   app.delete      - Delete application
   app.detail      - Show application info
   app.list        - Show a list of apps
+  app.ls          - List application instance directory content.
   app.map         - Map application to given host and domain (route must already exist)
-  app.push        - Push application
+  app.push        - Push application (directory or file archive)
   app.start       - Start application
   app.stop        - Stop application
+  app.tree        - Show application instance directory tree.
   app.unmap       - Unmap application from given host and domain (route must already exist)
 Domain
   domain.list     - Show a list of domains
@@ -47,7 +50,6 @@ Service
   service.list    - Show a list of services
 Space
   space.list      - Show all spaces in organization
-  space.use       - Set default space (and also organization)
 Target
   target.add      - Add new target
   target.info     - Show target information

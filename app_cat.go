@@ -1,24 +1,29 @@
 package main
 
 import (
+	"io"
 	"log"
+	"os"
 )
 
 func init() {
 	register(&Command{
 		group: "Application",
-		name:  "app.stop",
-		help:  "Stop application",
+		name:  "app.cat",
+		help:  "Get application instance file content",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
 			Param{name: "space", desc: "Space name"},
 			Param{name: "org", desc: "Organization name"},
+			Param{name: "instance", desc: "Application instance", defval: "0"},
+			Param{name: "file", desc: "Remote file"},
 		},
-		handle: app_stop,
+		handle: app_cat,
 	})
 }
 
-func app_stop() {
+func app_cat() {
+
 	target, err := c.SelectedTarget()
 	if err != nil {
 		log.Fatal(err)
@@ -28,9 +33,9 @@ func app_stop() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = target.AppStop(app.Guid)
+	reader, err := target.AppGet(app.Guid, params["instance"], params["file"])
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	io.Copy(os.Stdout, reader)
 }

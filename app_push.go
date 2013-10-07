@@ -15,6 +15,8 @@ func init() {
 		help:  "Push application (directory or file archive)",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
+			Param{name: "space", desc: "Space name"},
+			Param{name: "org", desc: "Organization name"},
 			Param{name: "path", desc: "Application path, or path to a archive file to upload (zip, war,...)", defval: "."},
 		},
 		handle: app_push,

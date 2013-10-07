@@ -12,10 +12,14 @@ import (
 
 func init() {
 	register(&Command{
-		group:  "Application",
-		name:   "app.start",
-		help:   "Start application",
-		params: []Param{Param{name: "name", desc: "Application name"}},
+		group: "Application",
+		name:  "app.start",
+		help:  "Start application",
+		params: []Param{
+			Param{name: "name", desc: "Application name"},
+			Param{name: "space", desc: "Space name"},
+			Param{name: "org", desc: "Organization name"},
+		},
 		handle: app_start,
 	})
 }
