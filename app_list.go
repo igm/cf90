@@ -40,7 +40,7 @@ func app_list() {
 		fmt.Print(".")
 		select {
 		case apps := <-ch:
-			fmt.Println()
+			fmt.Println("done")
 			list(AppList(apps))
 			goto end
 		case <-time.After(500 * time.Millisecond):
