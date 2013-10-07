@@ -1,5 +1,15 @@
 # CloudFoundry CLI - cf90 [![Build Status](https://travis-ci.org/igm/cf90.png?branch=master)](https://travis-ci.org/igm/cf90)
 
+````
+       __ ___   ___  
+      / _/ _ \ / _ \ 
+  ___| || (_) | | | |
+ / __|  _\__, | | | |
+| (__| |   / /| |_| |
+ \___|_|  /_/  \___/ 
+                           
+````
+
 `cf90` is a command line tool to interact with cloud foundry instance. It is entirely written in GO language.
 The tool is still under development.
 
