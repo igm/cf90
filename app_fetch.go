@@ -58,15 +58,15 @@ func app_fetch() {
 		}
 		for _, file := range files {
 			if file.Dir {
-				fmt.Printf("recuring into %s%s\n", dir, file.Name)
+				log.Printf("recuring into %s%s\n", dir, file.Name)
 				fetchDir(dir + file.Name)
 			} else {
 				remoteFile := fmt.Sprintf("%s%s", dir, file.Name)
-				fmt.Printf("fetching %s\n", remoteFile)
+				log.Printf("fetching %s\n", remoteFile)
 				reader, err := target.AppGet(app.Guid, instance, remoteFile)
 				if err != nil {
 					if cferr, ok := err.(*cf.Error); ok {
-						fmt.Println(cferr)
+						log.Println(cferr)
 						continue
 					} else {
 						log.Fatal(err)
