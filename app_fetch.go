@@ -13,7 +13,7 @@ func init() {
 	register(&Command{
 		group: "Application",
 		name:  "app.fetch",
-		help:  "Fetch application isntance files into local zip file",
+		help:  "Fetch application instance files into local zip file",
 		params: []Param{
 			Param{name: "name", desc: "Application name"},
 			Param{name: "org", desc: "Organization name"},
