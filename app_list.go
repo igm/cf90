@@ -35,7 +35,7 @@ func app_list() {
 		log.Fatal("request timeout!")
 	}()
 
-	fmt.Print("sending request")
+	fmt.Print("waiting for response")
 	for {
 		fmt.Print(".")
 		select {
